@@ -10,10 +10,16 @@ echo "Installing Ollama..."
 curl -fsSL https://ollama.com/install.sh | sh
 
 # Prompt user to install Lambda Stack (for GPU drivers)
-read -p "Install Lambda Stack (for GPU drivers)? (y/N) " install_lambda
+read -p "Install Lambda Stack (for GPU drivers)? (y/N) " -r install_lambda
+install_lambda=${install_lambda:-"n"}  # Set default to "n" if user just hits enter
+
 if [[ "$install_lambda" =~ ^[Yy]$ ]]; then
     echo "Installing Lambda Stack..."
-    wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | sh
+    if wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | sh; then
+        echo "Lambda Stack installation successful."
+    else
+        echo "Lambda Stack installation failed."
+    fi
 else
     echo "Skipping Lambda Stack installation."
 fi
