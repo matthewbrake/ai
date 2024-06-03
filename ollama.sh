@@ -1,9 +1,31 @@
 #!/bin/bash
 { # Start a group to enable piping
 
+    # Prompt for Ollama installation
+    read -r -p "Install Ollama? (y/N) " choice
+    install_ollama=n # Default to not installing Ollama
+
+    # Check if user input matches yes (case-insensitive)
+    if [[ "$choice" =~ ^[Yy]$ ]]; then
+        install_ollama=y
+
+        # Download and run Ollama installer with error check
+        echo "Installing Ollama..."
+        if ! curl -fsSL https://ollama.com/install.sh | sh; then
+            echo "Error: Ollama installation failed." >&2  # Print to stderr for error distinction
+            exit 1  # Exit with failure status
+        fi
+        echo "Ollama installation successful."
+
+        # Update system packages after Ollama installation
+        echo "Updating system packages..."
+        sudo apt-get update && sudo apt-get dist-upgrade -y
+    else
+        echo "Skipping Ollama installation."
+    fi 
     # Install Ollama without prompt
-    echo "Installing Ollama..."
-    curl -fsSL https://ollama.com/install.sh | sh
+   # echo "Installing Ollama..."
+    #curl -fsSL https://ollama.com/install.sh | sh
 
     # Update system packages
     echo "Updating system packages..."
