@@ -37,7 +37,6 @@ sudo systemctl daemon-reload
 sudo systemctl start ollama
 
 # Check if Ollama service is running
-echo "Checking Ollama service status..."
 service_status=$(sudo systemctl status ollama | grep "Active:" | awk '{print $2}')
 
 # Retry starting Ollama service if it fails
@@ -58,7 +57,7 @@ fi
 
 # Prompt user to enter the model to run
 echo "Enter the model to run (e.g., llama2, llama3, etc.) or press Enter to skip:"
-read model
+read -p "Model: " model
 
 # Run the specified model if provided, otherwise skip
 if [ -n "$model" ]; then
