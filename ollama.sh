@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 { # Start a group to enable piping
 
     # Prompt for Ollama installation
